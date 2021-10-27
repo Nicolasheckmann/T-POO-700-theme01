@@ -14,8 +14,16 @@ defmodule Theme01Web.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", Theme01Web do
+  scope "/api", Theme01Web do
     pipe_through :browser
+
+    resources "/users", UserController, only: [:show, :create, :update, :delete]
+
+    get "/workingtimes/:user_id/:id", WorkingtimesController, :show
+    resources "/workingtimes", WorkingtimesController, only: [:update, :delete]
+
+    get "/clocks/:user_id", ClockController, :show
+    post "/clocks/:user_id", ClockController, :create
 
     get "/", PageController, :index
   end
